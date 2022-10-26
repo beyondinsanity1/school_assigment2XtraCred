@@ -43,10 +43,11 @@ void getAllGameInfo(){
     }
 
 
+    cout << "================================"
+            "\nYour game list contains: "<<endl;
     for (int i = 0; i < gameCount; i++) {
-        cout << games[i].gameName << endl;
+        cout << games[i].gameName << "--> Graphic Score: "<< games[i].graphicScore << "  Replay Score: " << games[i].replayScore << endl;
     }
-
     menu();
 }
 
