@@ -7,6 +7,7 @@ struct gameInfo {
     string gameName;
     int replayScore;
     int graphicScore;
+    int combinedScore;
 };
 
 bool firstTimeMenu = true;
@@ -101,6 +102,8 @@ void getHighestGraphic(){
         if(highestGraphic < games[i].graphicScore){
             highestGraphic = games[i].graphicScore;
             highestGraphicName = games[i].gameName;
+        }else if (highestGraphic == games[i].graphicScore){
+            highestGraphicName = games[i].gameName;
         }
     }
 
@@ -112,13 +115,14 @@ void getHighestGraphic(){
 //function getHighestReplay
 void getHighestReplay(){
 
-//    if(games[0].graphicScore == )
     string highestReplayName {games[0].gameName};
     int highestReplayScore {games[0].graphicScore};
 
     for (int i = 0; i < gameCount; ++i) {
         if(highestReplayScore < games[i].replayScore){
             highestReplayScore = games[i].replayScore;
+            highestReplayName = games[i].gameName;
+        }else if (highestReplayScore == games[i].replayScore){
             highestReplayName = games[i].gameName;
         }
     }
@@ -132,15 +136,23 @@ void getHighestReplay(){
 //function getHighestCombined
 void getHighestCombined(){
 
+    int highestCombinedScore = 0;
     string highestCombinedName;
-    int highestCombined {0};
-    int highestGraphicScore{};
-    int highestReplayScore{};
 
     for (int i = 0; i < gameCount; ++i) {
-        highestCombined = highestGraphicScore + highestReplayScore;
-        cout << highestCombined;
+        games[i].combinedScore = games[i].graphicScore + games[i].replayScore;
     }
+
+    for (int i = 0; i < gameCount; ++i) {
+        if (games[i].combinedScore > highestCombinedScore){
+            highestCombinedScore = games[i].combinedScore;
+            highestCombinedName = games[i].gameName;
+        }else if (games[i].combinedScore == highestCombinedScore){
+            highestCombinedName = games[i].gameName;
+        }
+    }
+
+    cout << highestCombinedName << " - " << highestCombinedScore <<endl;
 
     menu();
 
@@ -160,7 +172,8 @@ void menu(){
                 "4. Find the highest graphic score\n"
                 "5. Find the highest replay value score\n"
                 "6. Find the highest combined score\n"
-                "7. Exit" << endl;
+                "7. Enter All Game Info at once\n"
+                "8. Exit" << endl;
         firstTimeMenu = false;
 
 
@@ -174,7 +187,8 @@ void menu(){
                 "4. Find the highest graphic score\n"
                 "5. Find the highest replay value score\n"
                 "6. Find the highest combined score\n"
-                "7. Exit" << endl;
+                "7. Enter All Game Info at once\n"
+                "8. Exit" << endl;
     }
 
     cin>>userInput;
@@ -193,6 +207,9 @@ void menu(){
     }else if (userInput == 6){
         getHighestCombined();
     }else if (userInput == 7){
+        getAllGameInfo();
+    }else if (userInput == 8){
+        cout << "Terminating the program!" << endl;
         EXIT_SUCCESS;
     }else{
         cout << "Invalid choice! Try Again."<<endl;
