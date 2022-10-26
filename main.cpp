@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -11,11 +12,12 @@ struct gameInfo {
 bool firstTimeMenu = true;
 const int gameCount = 3;
 
-void getGameName();
+void enterGameNames();
 void enterReplayScores();
 void enterGraphicScores();
-void getHighestReplay();
 void getHighestGraphic();
+void getHighestCombined();
+void getHighestReplay();
 void menu();
 
 
@@ -48,15 +50,15 @@ void getAllGameInfo(){
 }
 
 ////////////////////////////////////////////////
-//function getGameName
-void getGameName(){
+//function enterGameNames
+void enterGameNames(){
     for (int i = 0; i < gameCount; i++) {
         cout << "enter a game name" << endl;
         getline(cin,(games[i].gameName));
     }
 
 
-    cout << "======================================="
+    cout << "================================"
             "\nYour game list contains: "<<endl;
     for (int i = 0; i < gameCount; i++) {
         cout << games[i].gameName << endl;
@@ -78,45 +80,70 @@ void enterReplayScores(){
 ////////////////////////////////////////////////
 //function enterGraphicScores
 void enterGraphicScores(){
-
-    int highestGraphics = games[0].graphicScore;
-    string highestGraphicsName;
     for (int i = 0; i < gameCount; ++i) {
-        if (highestGraphics < games[i].graphicScore){
-            highestGraphics = games[i].graphicScore;
-            highestGraphicsName = games[i].gameName;
-        }
-
+        cout << "enter the graphic score for " << games[i].gameName << ":" <<endl;
+        cin >> games[i].graphicScore;
     }
 
-    cout << highestGraphicsName << " - " << highestGraphics << endl;
+    menu();
+}
 
+
+////////////////////////////////////////////////
+//function getHighestGraphic
+void getHighestGraphic(){
+    int highestGraphic {games[0].graphicScore};
+    string highestGraphicName {games[0].gameName};
+
+    cout << highestGraphic <<endl;
+
+    for (int i = 0; i < gameCount; ++i) {
+        if(highestGraphic < games[i].graphicScore){
+            highestGraphic = games[i].graphicScore;
+            highestGraphicName = games[i].gameName;
+        }
+    }
+
+    cout << highestGraphicName << " - " << highestGraphic <<endl;
     menu();
 }
 
 ////////////////////////////////////////////////
 //function getHighestReplay
- void getHighestReplay(){
-    for (int i = 0; i < gameCount; ++i) {
-        int highestReplay = games[0].graphicScore;
-        if (highestReplay < games[i].graphicScore){
-            highestReplay = games[i].graphicScore;
-        }
+void getHighestReplay(){
 
+//    if(games[0].graphicScore == )
+    string highestReplayName {games[0].gameName};
+    int highestReplayScore {games[0].graphicScore};
+
+    for (int i = 0; i < gameCount; ++i) {
+        if(highestReplayScore < games[i].replayScore){
+            highestReplayScore = games[i].replayScore;
+            highestReplayName = games[i].gameName;
+        }
     }
+    cout << highestReplayName << " - " << highestReplayScore <<endl;
 
     menu();
 }
 
+
 ////////////////////////////////////////////////
-//function getHighestGraphic
-void getHighestGraphic(){
+//function getHighestCombined
+void getHighestCombined(){
+
+    string highestCombinedName;
+    int highestCombined {0};
+    int highestGraphicScore{};
+    int highestReplayScore{};
+
     for (int i = 0; i < gameCount; ++i) {
-        cout << "enter the graphic score for "<< games[i].gameName << ":" <<endl;
-        cin >> games[i].graphicScore;
+        highestCombined = highestGraphicScore + highestReplayScore;
+        cout << highestCombined;
     }
 
     menu();
+
 }
 
 ////////////////////////////////////////////////
@@ -154,7 +181,7 @@ void menu(){
     cin.ignore();
 
     if (userInput == 1){
-        getGameName();
+        enterGameNames();
     }else if (userInput == 2){
         enterGraphicScores();
     }else if (userInput == 3){
@@ -164,11 +191,13 @@ void menu(){
     }else if (userInput == 5){
         getHighestReplay();
     }else if (userInput == 6){
-
+        getHighestCombined();
+    }else if (userInput == 7){
+        EXIT_SUCCESS;
     }else{
         cout << "Invalid choice! Try Again."<<endl;
+        menu();
     }
-    menu();
 }
 
 int main(){
